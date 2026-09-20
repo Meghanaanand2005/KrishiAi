@@ -1,0 +1,484 @@
+/* =====================================================================
+   KrishiAI design system  -  light theme
+
+   Every text/background pair below was checked against WCAG 2.1 AA
+   (4.5:1 for text, 3:1 for input borders and focus rings). Run
+   `python tools/check_contrast.py` to re-verify after changing a colour.
+
+   Fonts are bundled in static/fonts (SIL Open Font License), so the UI
+   looks the same offline.
+   ===================================================================== */
+
+@font-face {
+    font-family: 'Figtree';
+    src: url('/app/static/fonts/figtree-latin-wght-normal.woff2') format('woff2');
+    font-weight: 300 900;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Bricolage Grotesque';
+    src: url('/app/static/fonts/bricolage-grotesque-latin-wght-normal.woff2') format('woff2');
+    font-weight: 200 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    /* surfaces */
+    --ka-bg: #F5F8F3;
+    --ka-surface: #FFFFFF;
+    --ka-surface-2: #EEF4EC;
+    --ka-line: #DCE5DC;
+    --ka-line-strong: #7C9484;      /* input borders: 3.27:1 on white */
+
+    /* text */
+    --ka-ink: #14261C;              /* 15.9:1 on white */
+    --ka-ink-2: #3F5247;            /*  8.4:1 */
+    --ka-ink-3: #546B5C;            /*  5.8:1 */
+
+    /* brand */
+    --ka-primary: #17603A;          /*  7.6:1 with white text */
+    --ka-primary-hover: #0F4A2C;
+    --ka-primary-tint: #E3F1E8;
+    --ka-primary-ink: #124D2E;
+
+    /* status pairs (text on tint) - all >= 6.6:1 */
+    --ka-info-ink: #0F5470;   --ka-info-bg: #E1F0F6;
+    --ka-ok-ink: #0F5A32;     --ka-ok-bg: #E1F3E8;
+    --ka-warn-ink: #7A4700;   --ka-warn-bg: #FDF0D5;
+    --ka-bad-ink: #A11B12;    --ka-bad-bg: #FDE8E6;
+    --ka-neutral-ink: #3F5247; --ka-neutral-bg: #EAEFEA;
+    --ka-violet-ink: #5B3A8C; --ka-violet-bg: #F0EAFB;
+
+    --ka-radius: 12px;
+    --ka-radius-sm: 8px;
+    --ka-font: 'Figtree', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --ka-display: 'Bricolage Grotesque', 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+/* ------------------------------------------------------------ base ---- */
+html, body, .stApp, button, input, textarea, select {
+    font-family: var(--ka-font);
+}
+/* Streamlit draws its own icons with a ligature font; never override that one */
+[data-testid="stIconMaterial"], .material-symbols-rounded, [class*="material-symbols"] {
+    font-family: 'Material Symbols Rounded', 'Material Symbols Outlined' !important;
+}
+
+/* icons (see icons.py): a mask painted with the current text colour */
+.ka-i {
+    display: inline-block; flex: none; vertical-align: middle;
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+    -webkit-mask-position: center; mask-position: center;
+    -webkit-mask-size: contain; mask-size: contain;
+}
+.stApp {
+    background: var(--ka-bg);
+    color: var(--ka-ink);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+}
+.stApp p, .stApp li { color: var(--ka-ink); }
+.stApp [data-testid="stMarkdownContainer"], .stApp [data-testid="stMarkdownContainer"] p,
+.stApp [data-testid="stTab"] p, .stApp button p, .stApp label, .stApp [data-testid="stWidgetLabel"] p {
+    font-family: var(--ka-font) !important;
+}
+.stApp ul.ka-auth-features { padding-left: 0 !important; margin-left: 0 !important; }
+.stApp [data-testid="stCaptionContainer"], .stApp small { color: var(--ka-ink-3) !important; }
+
+h1, h2, h3, h4 {
+    font-family: var(--ka-display) !important;
+    color: var(--ka-ink) !important;
+    letter-spacing: -0.02em;
+    font-weight: 650 !important;
+}
+h2, h3 { letter-spacing: -0.015em; }
+h3 { font-size: 1.15rem !important; }
+
+/* hide Streamlit chrome we don't want in a finished product */
+#MainMenu, footer, [data-testid="stDecoration"], [data-testid="stStatusWidget"] { display: none !important; }
+[data-testid="stHeader"] { background: transparent; height: 0; }
+[data-testid="stToolbar"] { display: none; }
+[data-testid="stElementContainer"]:has(.ka-css-marker) { display: none; }
+
+[data-testid="stMainBlockContainer"], .block-container {
+    max-width: 1200px;
+    padding: 2.2rem 2.4rem 4rem 2.4rem;
+}
+
+:focus-visible { outline: 2px solid var(--ka-primary) !important; outline-offset: 2px; }
+::selection { background: var(--ka-primary-tint); color: var(--ka-primary-ink); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* --------------------------------------------------------- sidebar ---- */
+[data-testid="stSidebar"] {
+    background: var(--ka-surface);
+    border-right: 1px solid var(--ka-line);
+}
+[data-testid="stSidebarContent"] { padding: 0; }
+[data-testid="stSidebarHeader"] { position: absolute; top: 0.5rem; right: 0.5rem; height: auto; padding: 0; z-index: 3; }
+[data-testid="stSidebarUserContent"] { padding: 1.5rem 1rem 1rem 1rem; }
+[data-testid="stSidebar"] [data-testid="stVerticalBlock"] { gap: 0.15rem; }
+
+.ka-brand {
+    display: flex; align-items: center; gap: 0.7rem;
+    padding: 0.1rem 0.5rem 1.1rem 0.5rem;
+}
+.ka-brand-mark {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: var(--ka-primary); color: #FFFFFF;
+    display: grid; place-items: center; flex: none;
+}
+.ka-brand-name {
+    font-family: var(--ka-display); font-weight: 700; font-size: 1.28rem;
+    letter-spacing: -0.02em; color: var(--ka-ink); line-height: 1.1;
+}
+.ka-brand-tag { font-size: 0.78rem; color: var(--ka-ink-3); line-height: 1.2; margin-top: 2px; }
+
+.ka-nav-heading {
+    font-size: 0.8rem; font-weight: 600; color: var(--ka-ink-3);
+    padding: 1rem 0.75rem 0.3rem 0.75rem;
+}
+
+/* st.page_link rendered inside the sidebar acts as the nav item */
+[data-testid="stSidebar"] [data-testid="stPageLink-NavLink"] {
+    border-radius: var(--ka-radius-sm);
+    padding: 0.5rem 0.75rem;
+    gap: 0.7rem;
+    color: var(--ka-ink-2);
+    text-decoration: none;
+    transition: background-color .12s ease;
+}
+[data-testid="stSidebar"] [data-testid="stPageLink-NavLink"] p {
+    font-size: 0.93rem; font-weight: 500; color: inherit !important;
+}
+[data-testid="stSidebar"] [data-testid="stPageLink-NavLink"]:hover { background: var(--ka-surface-2); }
+/* the current page is highlighted by a per-run rule from theme.mark_active_nav() */
+[data-testid="stSidebar"] [data-testid="stPageLink-NavLink"][aria-current="page"] {
+    background: var(--ka-primary-tint) !important; color: var(--ka-primary-ink);
+}
+
+/* links to other pages inside the content area read as secondary buttons */
+[data-testid="stMainBlockContainer"] [data-testid="stPageLink-NavLink"] {
+    display: inline-flex; width: auto; border: 1px solid var(--ka-line-strong); border-radius: var(--ka-radius-sm);
+    padding: 0.4rem 0.9rem; background: var(--ka-surface); color: var(--ka-ink); gap: 0.5rem;
+}
+[data-testid="stMainBlockContainer"] [data-testid="stPageLink-NavLink"]:hover { background: var(--ka-surface-2); border-color: var(--ka-primary); }
+[data-testid="stMainBlockContainer"] [data-testid="stPageLink-NavLink"] p { font-weight: 600; font-size: 0.9rem; color: var(--ka-ink) !important; }
+
+.ka-usercard {
+    display: flex; align-items: center; gap: 0.7rem;
+    padding: 0.75rem; margin-top: 1.4rem;
+    border: 1px solid var(--ka-line); border-radius: var(--ka-radius);
+    background: var(--ka-bg);
+}
+.ka-avatar {
+    width: 36px; height: 36px; border-radius: 50%; flex: none;
+    background: var(--ka-primary-tint); color: var(--ka-primary-ink);
+    display: grid; place-items: center; font-weight: 700; font-size: 0.85rem;
+}
+.ka-usercard-name { font-weight: 600; font-size: 0.9rem; color: var(--ka-ink); line-height: 1.25; }
+.ka-usercard-meta { font-size: 0.78rem; color: var(--ka-ink-3); line-height: 1.25; }
+
+/* ------------------------------------------------------ page header ---- */
+.ka-pagehead {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem;
+    padding-bottom: 1.2rem; margin-bottom: 1.6rem;
+    border-bottom: 1px solid var(--ka-line);
+}
+.ka-pagehead-title { display: flex; align-items: center; gap: 0.9rem; }
+.ka-pagehead-icon {
+    width: 44px; height: 44px; border-radius: 12px; flex: none;
+    background: var(--ka-primary-tint); color: var(--ka-primary-ink);
+    display: grid; place-items: center;
+}
+.ka-pagehead h1 { font-size: 1.75rem !important; margin: 0 !important; padding: 0 !important; line-height: 1.15; }
+.ka-pagehead p { margin: 0.25rem 0 0 0; color: var(--ka-ink-3) !important; font-size: 0.95rem; max-width: 62ch; }
+
+/* -------------------------------------------------------- containers --- */
+/* st.container(border=True) and forms become white cards */
+[class*="st-key-card_"],
+div[data-testid="stForm"] {
+    background: var(--ka-surface);
+    border: 1px solid var(--ka-line) !important;
+    border-radius: var(--ka-radius) !important;
+}
+[class*="st-key-card_"] { padding: 1.15rem 1.25rem !important; }
+div[data-testid="stForm"] { padding: 1.25rem 1.3rem; }
+
+.ka-card {
+    background: var(--ka-surface); border: 1px solid var(--ka-line);
+    border-radius: var(--ka-radius); padding: 1.15rem 1.3rem;
+}
+.ka-card-title { font-family: var(--ka-display); font-weight: 650; font-size: 1.05rem; color: var(--ka-ink); margin: 0 0 0.15rem 0; }
+.ka-card-sub { color: var(--ka-ink-3); font-size: 0.88rem; margin: 0 0 0.9rem 0; }
+
+/* -------------------------------------------------------- stat tiles --- */
+.ka-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 1rem; margin-bottom: 1.4rem; }
+.ka-stat {
+    background: var(--ka-surface); border: 1px solid var(--ka-line);
+    border-radius: var(--ka-radius); padding: 1rem 1.15rem;
+    display: flex; gap: 0.9rem; align-items: center;
+}
+.ka-stat-icon { width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center; flex: none; }
+.ka-stat-value { overflow-wrap: anywhere; font-family: var(--ka-display); font-weight: 700; font-size: 1.7rem; line-height: 1.05; color: var(--ka-ink); letter-spacing: -0.02em; }
+.ka-stat-label { font-size: 0.85rem; color: var(--ka-ink-3); margin-top: 0.15rem; }
+
+/* tones shared by icons and pills */
+.ka-tone-primary { background: var(--ka-primary-tint); color: var(--ka-primary-ink); }
+.ka-tone-info    { background: var(--ka-info-bg);    color: var(--ka-info-ink); }
+.ka-tone-ok      { background: var(--ka-ok-bg);      color: var(--ka-ok-ink); }
+.ka-tone-warn    { background: var(--ka-warn-bg);    color: var(--ka-warn-ink); }
+.ka-tone-bad     { background: var(--ka-bad-bg);     color: var(--ka-bad-ink); }
+.ka-tone-neutral { background: var(--ka-neutral-bg); color: var(--ka-neutral-ink); }
+.ka-tone-violet  { background: var(--ka-violet-bg);  color: var(--ka-violet-ink); }
+
+/* -------------------------------------------------------------- pills -- */
+.ka-pill {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.18rem 0.62rem; border-radius: 999px;
+    font-size: 0.8rem; font-weight: 600; line-height: 1.5; white-space: nowrap;
+}
+.ka-pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.ka-pill--plain::before { display: none; }
+.ka-method { font-family: var(--ka-font); letter-spacing: 0.02em; min-width: 4.6rem; justify-content: center; border-radius: 6px; }
+
+/* ------------------------------------------------------------ meters --- */
+.ka-meter { margin: 0.6rem 0; }
+.ka-meter-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.9rem; margin-bottom: 0.3rem; }
+.ka-meter-label { color: var(--ka-ink); font-weight: 500; }
+.ka-meter-value { color: var(--ka-ink-2); font-weight: 600; font-variant-numeric: tabular-nums; }
+.ka-meter-track { height: 9px; border-radius: 999px; background: #DCE8DF; overflow: hidden; }
+.ka-meter-fill { height: 100%; border-radius: 999px; background: #2E8B57; }
+.ka-meter-fill.ka-fill-info { background: #2C7FA3; }
+.ka-meter-fill.ka-fill-warn { background: #C77D0A; }
+.ka-meter-fill.ka-fill-bad  { background: #C8352B; }
+.ka-meter-fill.ka-fill-neutral { background: #7C9484; }
+
+/* ---------------------------------------------------- field brief ------ */
+.ka-brief {
+    background: linear-gradient(180deg, #E9F4EC 0%, #F3F9F4 100%);
+    border: 1px solid #CFE3D5; border-radius: 16px; padding: 1.5rem 1.6rem;
+}
+.ka-brief-top { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; flex-wrap: wrap; }
+.ka-brief-where { display: flex; align-items: center; gap: 0.4rem; color: var(--ka-ink-2); font-weight: 600; font-size: 0.95rem; }
+.ka-brief-temp { font-family: var(--ka-display); font-weight: 700; font-size: 4.2rem; line-height: 1; letter-spacing: -0.04em; color: var(--ka-ink); margin-top: 0.5rem; }
+.ka-brief-temp small { font-size: 1.6rem; font-weight: 600; color: var(--ka-ink-2) !important; letter-spacing: 0; margin-left: 0.15rem; }
+.ka-brief-cond { font-size: 1.1rem; color: var(--ka-ink-2); margin-top: 0.3rem; font-weight: 500; }
+.ka-brief-readings { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.1rem; }
+.ka-chip {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    background: #FFFFFF; border: 1px solid #CFE3D5; border-radius: 999px;
+    padding: 0.3rem 0.8rem 0.3rem 0.6rem; font-size: 0.88rem; color: var(--ka-ink); font-weight: 500;
+}
+.ka-chip svg { color: var(--ka-primary); }
+.ka-brief-advice { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid #CFE3D5; }
+.ka-brief-advice h4 { font-family: var(--ka-font) !important; font-size: 0.9rem !important; font-weight: 650 !important; color: var(--ka-ink-2) !important; margin: 0 0 0.4rem 0 !important; letter-spacing: 0; }
+.ka-brief-advice ul { margin: 0; padding-left: 1.1rem; }
+.ka-brief-advice li { margin: 0.2rem 0; }
+
+/* ------------------------------------------------------ list rows ------ */
+.ka-list { display: flex; flex-direction: column; }
+.ka-row { display: flex; align-items: center; gap: 0.85rem; padding: 0.7rem 0; border-top: 1px solid var(--ka-line); }
+.ka-row:first-child { border-top: none; }
+.ka-row-main { flex: 1; min-width: 0; }
+.ka-row-title { font-weight: 600; color: var(--ka-ink); font-size: 0.93rem; line-height: 1.3; }
+.ka-row-sub { color: var(--ka-ink-3); font-size: 0.83rem; line-height: 1.35; }
+
+/* --------------------------------------------------- empty state -------- */
+.ka-empty {
+    text-align: center; padding: 2.2rem 1.5rem;
+    border: 1px dashed var(--ka-line-strong); border-radius: var(--ka-radius);
+    background: var(--ka-surface);
+}
+.ka-empty-icon { width: 46px; height: 46px; border-radius: 12px; margin: 0 auto 0.8rem auto; display: grid; place-items: center; }
+.ka-empty h4 { margin: 0 0 0.25rem 0 !important; font-size: 1.05rem !important; }
+.ka-empty p { margin: 0 auto; color: var(--ka-ink-3) !important; max-width: 46ch; font-size: 0.92rem; }
+
+/* ----------------------------------------------- equipment cards ------- */
+.ka-eq-title { font-family: var(--ka-display); font-weight: 650; font-size: 1.08rem; color: var(--ka-ink); line-height: 1.25; }
+.ka-eq-meta { display: flex; align-items: center; gap: 0.4rem; color: var(--ka-ink-3); font-size: 0.86rem; margin-top: 0.2rem; }
+.ka-eq-desc { color: var(--ka-ink-2); font-size: 0.9rem; margin: 0.7rem 0; }
+.ka-price { font-family: var(--ka-display); font-weight: 700; font-size: 1.25rem; color: var(--ka-ink); letter-spacing: -0.02em; }
+.ka-price small { font-family: var(--ka-font); font-size: 0.82rem; font-weight: 500; color: var(--ka-ink-3) !important; letter-spacing: 0; }
+
+/* ------------------------------------------------------- diagnosis ----- */
+.ka-diagnosis { border-radius: var(--ka-radius); padding: 1.1rem 1.25rem; }
+.ka-diagnosis h3 { margin: 0.35rem 0 0.15rem 0 !important; font-size: 1.4rem !important; }
+.ka-diagnosis p { margin: 0.2rem 0 0 0; }
+
+/* ---------------------------------------------------- api reference ---- */
+.ka-endpoint { display: flex; align-items: center; gap: 0.8rem; padding: 0.65rem 0; border-top: 1px solid var(--ka-line); flex-wrap: wrap; }
+.ka-endpoint:first-child { border-top: none; }
+.ka-endpoint code { font-size: 0.88rem; background: transparent; color: var(--ka-ink); padding: 0; }
+.ka-endpoint span.ka-ep-desc { color: var(--ka-ink-3); font-size: 0.88rem; flex: 1 1 14rem; }
+
+/* ------------------------------------------------------- auth screen --- */
+.ka-auth-brand {
+    background: linear-gradient(160deg, #E4F1E8 0%, #F3F9F4 70%);
+    border: 1px solid #CFE3D5; border-radius: 18px; padding: 2.2rem 2.2rem 1.8rem 2.2rem; height: 100%;
+}
+.ka-auth-brand h1 { font-size: 2.35rem !important; line-height: 1.1; margin: 1.6rem 0 0.7rem 0 !important; max-width: 16ch; }
+.ka-auth-brand > p { color: var(--ka-ink-2) !important; font-size: 1.02rem; max-width: 44ch; margin: 0 0 1.5rem 0; }
+.ka-auth-features { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.95rem; }
+.ka-auth-features li { display: flex; gap: 0.8rem; align-items: flex-start; }
+.ka-auth-features .ka-feat-icon { width: 36px; height: 36px; border-radius: 10px; background: #FFFFFF; border: 1px solid #CFE3D5; color: var(--ka-primary); display: grid; place-items: center; flex: none; }
+.ka-auth-features strong { display: block; color: var(--ka-ink); font-size: 0.95rem; line-height: 1.3; }
+.ka-auth-features span { color: var(--ka-ink-3); font-size: 0.86rem; line-height: 1.4; display: block; }
+.ka-auth-foot { margin-top: 1.8rem; font-size: 0.82rem; color: var(--ka-ink-3); }
+.ka-auth-formhead h2 { font-size: 1.5rem !important; margin: 0 0 0.2rem 0 !important; }
+.ka-auth-formhead p { color: var(--ka-ink-3) !important; margin: 0 0 0.6rem 0; }
+
+/* ---------------------------------------------------------- widgets ---- */
+[data-testid="stWidgetLabel"] p { font-size: 0.88rem; font-weight: 600; color: var(--ka-ink-2) !important; }
+
+[data-testid="stTextInputRootElement"], [data-testid="stNumberInputContainer"], [data-testid="stTextAreaRootElement"],
+[data-testid="stSelectbox"] [role="group"], [data-testid="stDateInput"] [role="group"], [data-testid="stMultiSelect"] [role="group"],
+[data-baseweb="input"], [data-baseweb="base-input"], [data-baseweb="textarea"], [data-baseweb="select"] > div {
+    background-color: var(--ka-surface) !important;
+    border: 1px solid var(--ka-line-strong) !important;
+    border-radius: var(--ka-radius-sm) !important;
+}
+input, textarea, [data-testid="stSelectbox"] input { color: var(--ka-ink) !important; background: transparent !important; }
+input::placeholder, textarea::placeholder { color: #5F7566 !important; opacity: 1 !important; }
+[data-testid="stTextInputRootElement"]:focus-within, [data-testid="stNumberInputContainer"]:focus-within,
+[data-testid="stTextAreaRootElement"]:focus-within, [data-testid="stSelectbox"] [role="group"]:focus-within,
+[data-baseweb="input"]:focus-within, [data-baseweb="textarea"]:focus-within {
+    border-color: var(--ka-primary) !important;
+    box-shadow: 0 0 0 3px rgba(23, 96, 58, 0.18) !important;
+}
+[data-testid="stNumberInputContainer"] button { background: var(--ka-surface-2) !important; color: var(--ka-ink-2) !important; }
+input:focus-visible, textarea:focus-visible { outline: none !important; }
+
+/* buttons */
+.stButton > button, [data-testid="stFormSubmitButton"] > button, [data-testid="stPopover"] > button,
+[data-testid="stPageLink-NavLink"].ka-btnlink {
+    border-radius: var(--ka-radius-sm); font-weight: 600; font-size: 0.92rem;
+    padding: 0.5rem 1.15rem; min-height: 2.5rem; transition: background-color .12s ease, border-color .12s ease;
+}
+button[data-testid="stBaseButton-primary"], button[data-testid="stBaseButton-primaryFormSubmit"] {
+    background: var(--ka-primary) !important; border: 1px solid var(--ka-primary) !important; color: #FFFFFF !important;
+}
+button[data-testid="stBaseButton-primary"]:hover, button[data-testid="stBaseButton-primaryFormSubmit"]:hover {
+    background: var(--ka-primary-hover) !important; border-color: var(--ka-primary-hover) !important;
+}
+button[data-testid="stBaseButton-primary"] p, button[data-testid="stBaseButton-primaryFormSubmit"] p { color: #FFFFFF !important; }
+button[data-testid="stBaseButton-secondary"], button[data-testid="stBaseButton-secondaryFormSubmit"],
+[data-testid="stPopover"] > button {
+    background: var(--ka-surface) !important; color: var(--ka-ink) !important; border: 1px solid var(--ka-line-strong) !important;
+}
+button[data-testid="stBaseButton-secondary"]:hover, button[data-testid="stBaseButton-secondaryFormSubmit"]:hover,
+[data-testid="stPopover"] > button:hover {
+    background: var(--ka-surface-2) !important; border-color: var(--ka-primary) !important; color: var(--ka-primary-ink) !important;
+}
+button[data-testid="stBaseButton-secondary"] p, [data-testid="stPopover"] > button p { color: inherit !important; }
+button:disabled { opacity: 0.55; }
+/* destructive actions: give the button a `key` starting with "danger_" */
+[class*="st-key-danger_"] button {
+    background: var(--ka-surface) !important; color: var(--ka-bad-ink) !important; border: 1px solid #D9A19C !important;
+}
+[class*="st-key-danger_"] button:hover { background: var(--ka-bad-bg) !important; border-color: var(--ka-bad-ink) !important; }
+[class*="st-key-danger_"] button p { color: var(--ka-bad-ink) !important; }
+[class*="st-key-dangersolid_"] button {
+    background: var(--ka-bad-ink) !important; color: #FFFFFF !important; border: 1px solid var(--ka-bad-ink) !important;
+}
+[class*="st-key-dangersolid_"] button p { color: #FFFFFF !important; }
+[class*="st-key-dangersolid_"] button:hover { background: #831610 !important; }
+
+/* logout button in sidebar stays quiet */
+[class*="st-key-logout"] button { width: 100%; }
+
+/* tabs (react-aria markup in current Streamlit, BaseWeb in older releases) */
+[role="tablist"] { gap: 0.4rem; border-bottom: 1px solid var(--ka-line); }
+[data-testid="stTab"], button[data-baseweb="tab"] { padding: 0.55rem 0.9rem; background: transparent !important; }
+[data-testid="stTab"] p, button[data-baseweb="tab"] p { font-weight: 600; font-size: 0.93rem; color: var(--ka-ink-3) !important; }
+[data-testid="stTab"][data-selected="true"] p, button[data-baseweb="tab"][aria-selected="true"] p { color: var(--ka-primary-ink) !important; }
+[data-testid="stTab"]:hover p { color: var(--ka-ink) !important; }
+.react-aria-SelectionIndicator, [data-baseweb="tab-highlight"] { background: var(--ka-primary) !important; height: 3px !important; border-radius: 3px 3px 0 0; }
+[data-baseweb="tab-border"] { display: none; }
+
+/* alerts, toasts */
+[data-testid="stAlert"] { border-radius: var(--ka-radius-sm); border: 1px solid var(--ka-line); }
+[data-testid="stAlert"] p { color: inherit !important; }
+[data-testid="stAlertContainer"] { padding: 0.7rem 0.95rem; }
+[data-testid="stAlert"]:has([data-testid="stAlertContentSuccess"]) { background: var(--ka-ok-bg); color: var(--ka-ok-ink); border-color: #B9DDC6; }
+[data-testid="stAlert"]:has([data-testid="stAlertContentInfo"])    { background: var(--ka-info-bg); color: var(--ka-info-ink); border-color: #B5D7E4; }
+[data-testid="stAlert"]:has([data-testid="stAlertContentWarning"]) { background: var(--ka-warn-bg); color: var(--ka-warn-ink); border-color: #EBCB8C; }
+[data-testid="stAlert"]:has([data-testid="stAlertContentError"])   { background: var(--ka-bad-bg);  color: var(--ka-bad-ink);  border-color: #EBB5B0; }
+[data-testid="stToast"] { border: 1px solid var(--ka-line); border-radius: var(--ka-radius-sm); background: var(--ka-surface); }
+[data-testid="stToast"] p { color: var(--ka-ink) !important; }
+
+/* file uploader */
+[data-testid="stFileUploaderDropzone"] {
+    background: var(--ka-surface); border: 1.5px dashed var(--ka-line-strong); border-radius: var(--ka-radius);
+}
+[data-testid="stFileUploaderDropzone"] * { color: var(--ka-ink-2) !important; }
+
+/* expanders, dataframes, code */
+[data-testid="stExpander"] details { border: 1px solid var(--ka-line); border-radius: var(--ka-radius-sm); background: var(--ka-surface); }
+[data-testid="stExpander"] summary p { font-weight: 600; color: var(--ka-ink) !important; }
+[data-testid="stDataFrame"] { border: 1px solid var(--ka-line); border-radius: var(--ka-radius-sm); overflow: hidden; }
+code { color: #124D2E; background: var(--ka-primary-tint); border-radius: 5px; padding: 0.1em 0.4em; font-size: 0.88em; }
+[data-testid="stCode"], pre { border: 1px solid var(--ka-line); border-radius: var(--ka-radius-sm); background: #F1F6F0 !important; }
+[data-testid="stCode"] code, pre code { background: transparent !important; color: var(--ka-ink) !important; }
+
+/* dialogs */
+div[role="dialog"] { border-radius: 16px; background: var(--ka-surface); }
+
+/* metrics (used sparingly) */
+[data-testid="stMetric"] { background: var(--ka-surface); border: 1px solid var(--ka-line); border-radius: var(--ka-radius); padding: 0.8rem 1rem; }
+[data-testid="stMetricLabel"] p { color: var(--ka-ink-3) !important; font-weight: 600; }
+[data-testid="stMetricValue"] { font-family: var(--ka-display); color: var(--ka-ink); }
+
+
+/* ---- fixes found by the automated contrast audit ---------------------- */
+/* popover buttons (e.g. "Book") use their own test id, not stBaseButton-* */
+button[data-testid="stPopoverButton"] {
+    border-radius: var(--ka-radius-sm); font-weight: 600; min-height: 2.5rem;
+}
+button[data-testid="stPopoverButton"][kind="primary"] {
+    background: var(--ka-primary) !important; border: 1px solid var(--ka-primary) !important; color: #FFFFFF !important;
+}
+button[data-testid="stPopoverButton"][kind="primary"]:hover { background: var(--ka-primary-hover) !important; }
+button[data-testid="stPopoverButton"][kind="primary"] p,
+button[data-testid="stPopoverButton"][kind="primary"] span { color: #FFFFFF !important; }
+button[data-testid="stPopoverButton"][kind="secondary"] {
+    background: var(--ka-surface) !important; border: 1px solid var(--ka-line-strong) !important; color: var(--ka-ink) !important;
+}
+button[data-testid="stPopoverButton"][kind="secondary"] p, button[data-testid="stPopoverButton"][kind="secondary"] span { color: var(--ka-ink) !important; }
+
+/* one typeface for every form control and label (Streamlit sets its own on these) */
+.stApp input, .stApp textarea, .stApp select, .stApp button, .stApp label, .stApp p, .stApp li,
+.stApp [data-baseweb="select"] div, .stApp [data-baseweb="tab"] {
+    font-family: var(--ka-font) !important;
+}
+.stApp h1, .stApp h2, .stApp h3, .stApp h4 { font-family: var(--ka-display) !important; }
+.stApp code, .stApp pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; }
+
+
+/* syntax highlighting in code blocks: Streamlit's default token colours are
+   too pale on a light background (as low as 2.5:1). These are all >= 5.3:1. */
+[data-testid="stCode"] .token { color: #14261C !important; background: transparent !important; }
+[data-testid="stCode"] .token.property, [data-testid="stCode"] .token.tag, [data-testid="stCode"] .token.attr-name { color: #0F5470 !important; }
+[data-testid="stCode"] .token.string, [data-testid="stCode"] .token.attr-value, [data-testid="stCode"] .token.url { color: #0F5A32 !important; }
+[data-testid="stCode"] .token.number, [data-testid="stCode"] .token.boolean, [data-testid="stCode"] .token.null,
+[data-testid="stCode"] .token.constant { color: #5B3A8C !important; }
+[data-testid="stCode"] .token.punctuation, [data-testid="stCode"] .token.operator { color: #3F5247 !important; }
+[data-testid="stCode"] .token.keyword, [data-testid="stCode"] .token.function, [data-testid="stCode"] .token.builtin,
+[data-testid="stCode"] .token.class-name { color: #124D2E !important; font-weight: 600; }
+[data-testid="stCode"] .token.comment { color: #546B5C !important; font-style: italic; }
+[data-testid="stCode"] .token.parameter, [data-testid="stCode"] .token.variable { color: #7A4700 !important; }
+.stApp :not(pre) > code { color: #124D2E !important; background: var(--ka-primary-tint) !important; }
+/* date picker separators and hints */
+[data-testid="stDateInput"] span[data-type="literal"], [data-testid="stDateInput"] [data-baseweb="input"] span { color: var(--ka-ink-2) !important; opacity: 1 !important; }
+
+/* ---------------------------------------------------- responsive ------ */
+@media (max-width: 900px) {
+    [data-testid="stMainBlockContainer"], .block-container { padding: 1.4rem 1rem 3rem 1rem; }
+    .ka-pagehead { flex-direction: column; align-items: flex-start; }
+    .ka-brief-temp { font-size: 3.4rem; }
+    .ka-auth-brand { padding: 1.5rem; }
+}

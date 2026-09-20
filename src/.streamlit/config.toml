@@ -1,0 +1,20 @@
+# Same settings as ../.streamlit/config.toml, so the app also looks right if it is started from inside src/.
+[theme]
+base = "light"
+primaryColor = "#17603A"
+backgroundColor = "#F5F8F3"
+secondaryBackgroundColor = "#EAF1E8"
+textColor = "#14261C"
+borderColor = "#DCE5DC"
+font = "sans serif"
+
+[server]
+# Lets the app serve the bundled fonts from src/static (works offline).
+enableStaticServing = true
+headless = true
+
+[client]
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false
