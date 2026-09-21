@@ -28,7 +28,7 @@ def render() -> None:
             '<div class="ka-brand" style="padding:0">'
             f'<div class="ka-brand-mark">{icons.svg("sprout", 22, stroke=2)}</div>'
             '<div><div class="ka-brand-name">KrishiAI</div>'
-            '<div class="ka-brand-tag">AI and IoT powered smart agriculture</div></div></div>'
+            '<div class="ka-brand-tag">“ An AI and IoT-Enabled Smart Agricultural Decision Support and Equipment Management System”</div></div></div>'
             "<h1>Decisions for the field, backed by data</h1>"
             "<p>Everything a farm needs in one place: what to grow, how the crop is doing, "
             "what the weather means for the week, and the machinery to get the work done.</p>"
