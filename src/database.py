@@ -14,22 +14,23 @@ import os
 import sqlite3
 from pathlib import Path
 
-# Resolve base project directory
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Set database path (supports custom KRISHI_DB_PATH environment variable if provided)
-env_db_path = os.environ.get("KRISHI_DB_PATH")
-if env_db_path:
-    DB_PATH = Path(env_db_path)
+# Determine DB path dynamically:
+# 1. Custom KRISHI_DB_PATH environment variable if set
+# 2. Use /tmp/krishiai.db on Streamlit Cloud (guaranteed write permissions)
+# 3. Use local project folder data/krishiai.db for local development
+if os.environ.get("KRISHI_DB_PATH"):
+    DB_PATH = Path(os.environ["KRISHI_DB_PATH"])
+elif os.path.exists("/mount/src") or os.environ.get("STREAMLIT_SERVER_PORT"):
+    DB_PATH = Path("/tmp") / "krishiai.db"
 else:
+    BASE_DIR = Path(__file__).resolve().parent.parent
     DB_PATH = BASE_DIR / "data" / "krishiai.db"
 
-# Automatically create the parent directory (data/) if it does not exist
+# Safely ensure directory exists
 DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 
 def get_connection():
-    # timeout: wait briefly if another process holds a write lock
     conn = sqlite3.connect(str(DB_PATH), timeout=10)
     conn.row_factory = sqlite3.Row
     return conn
