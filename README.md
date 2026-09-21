@@ -224,4 +224,4 @@ authentication (no `users` table), delete `data/krishiai.db` once so the current
   `streamlit run src/app.py`, or use `python run.py`.
 - **"API offline" on the REST API tab.** The API server isn't running. Use `python run.py`, or start `uvicorn` as shown above.
 - **Port already in use.** `python run.py --app-port 8502 --api-port 8001`.
-# Deployment link: **[ ](https://krishiai-zwxrdhirwg3chcw73dqmlv.streamlit.app/)
+# Deployment link: https://krishiai-zwxrdhirwg3chcw73dqmlv.streamlit.app/
