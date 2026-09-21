@@ -33,7 +33,7 @@ def render() -> None:
             "<p>Everything a farm needs in one place: what to grow, how the crop is doing, "
             "what the weather means for the week, and the machinery to get the work done.</p>"
             f'<ul class="ka-auth-features">{items}</ul>'
-            '<div class="ka-auth-foot">Project Phase-1 (BCS685), EWIT, 2025-26</div>'
+            '<div class="ka-auth-foot">Developed by Meghana A, Ruthu S, Pragathi PG,Pallavi TG<br>Guided by Prof. Sangeetha</div>'
             "</div>"
         )
 

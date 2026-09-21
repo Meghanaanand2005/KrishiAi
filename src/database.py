@@ -12,18 +12,25 @@ Handles all SQLite persistence for KrishiAI:
 import json
 import os
 import sqlite3
+from pathlib import Path
 
-# The database lives in <project>/data/krishiai.db. Set KRISHI_DB_PATH to
-# point somewhere else (the automated tests use this to get a throw-away DB).
-DB_PATH = os.environ.get("KRISHI_DB_PATH") or os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "krishiai.db"
-)
+# Resolve base project directory
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Set database path (supports custom KRISHI_DB_PATH environment variable if provided)
+env_db_path = os.environ.get("KRISHI_DB_PATH")
+if env_db_path:
+    DB_PATH = Path(env_db_path)
+else:
+    DB_PATH = BASE_DIR / "data" / "krishiai.db"
+
+# Automatically create the parent directory (data/) if it does not exist
+DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 
 def get_connection():
-    # timeout: the Streamlit app and the REST API are separate processes that
-    # share this file, so wait briefly instead of failing on a write lock.
-    conn = sqlite3.connect(DB_PATH, timeout=10)
+    # timeout: wait briefly if another process holds a write lock
+    conn = sqlite3.connect(str(DB_PATH), timeout=10)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -248,11 +255,7 @@ def release_equipment(equipment_id):
 
 
 def complete_booking(booking_id):
-    """Mark a booking as completed AND make its equipment available again.
-
-    (The original flow only released the equipment, so the booking stayed
-    'confirmed' forever and kept counting as an active booking.)
-    """
+    """Mark a booking as completed AND make its equipment available again."""
     conn = get_connection()
     cur = conn.cursor()
     cur.execute("SELECT equipment_id FROM bookings WHERE id = ? AND status = 'confirmed'", (booking_id,))
@@ -302,9 +305,6 @@ def get_iot_history(equipment_id, limit=20):
 
 
 # ------------------------------------------------------------- UPLOADS ----
-# Persists uploaded files (e.g. leaf photos) to disk under data/uploads/,
-# with metadata + analysis results recorded here so each user has a
-# durable history instead of the file vanishing at the end of the session.
 
 def save_uploaded_file(user_id, module, original_filename, stored_path, result_json=None):
     conn = get_connection()
@@ -336,8 +336,6 @@ def get_user_uploads(user_id, module=None):
 
 
 # ------------------------------------------------- WEATHER ADVISORIES ------
-# Full CRUD for saved weather advisories. Every query is scoped by user_id so
-# one user can never read, change or delete another user's records.
 
 _ADVISORY_COLUMNS = (
     "city", "temperature", "humidity", "condition", "rainfall_mm", "wind_speed",

@@ -1,6 +1,6 @@
 # KrishiAI: AI & IoT Powered Smart Agricultural Equipment Rental System
 
-Major project, Project Phase-1 (BCS685), EWIT, 2025-26.
+Major project,(BCS685), EWIT, 2025-26.
 
 KrishiAI is a Streamlit web application with a companion REST API. It combines crop recommendation, leaf
 disease screening, weather advisories and an equipment rental marketplace with simulated IoT telemetry.
